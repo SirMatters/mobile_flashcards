@@ -1,17 +1,27 @@
 import * as React from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, StatusBar } from 'react-native';
+import Dashboard from './components/Dashboard';
+import Deck from './components/Deck';
+import NewQuestion from './components/NewQuestion';
 
-const instructions = Platform.select({
-  ios: `Press Cmd+R to reload,\nCmd+D or shake for dev menu`,
-  android: `Double tap R on your keyboard to reload,\nShake or press menu button for dev menu`,
-});
+const dummyData = [
+  {
+    id: 1,
+    title: 'Quiz 1',
+    questions: [{ title: 'q11', answer: 'a11' }],
+  },
+  {
+    id: 2,
+    title: 'Quiz 2',
+    questions: [{ title: 'q21', answer: 'a21' }],
+  },
+];
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={styles.welcome}>Welcome to React Native!</Text>
-      <Text style={styles.instructions}>To get started, edit App.js</Text>
-      <Text style={styles.instructions}>{instructions}</Text>
+      <StatusBar />
+      <Dashboard />
     </View>
   );
 }
@@ -22,15 +32,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
