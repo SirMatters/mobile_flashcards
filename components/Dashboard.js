@@ -54,7 +54,7 @@ class Dashboard extends React.Component {
 const styles = StyleSheet.create({
   containder: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'stretch',
   },
   item: {
