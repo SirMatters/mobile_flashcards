@@ -18,35 +18,43 @@ const dummyData = [
     title: 'Egyptian mythology',
     questions: [{ title: 'q21', answer: 'a21' }],
   },
+  {
+    id: '3',
+    title: 'Pain & gain',
+    questions: [{ title: 'q21', answer: 'a21' }],
+  },
 ];
 
-const ListItem = ({ title, questions, id }) => {
-  return (
-    <TouchableOpacity
-      style={styles.item}
-      onPress={() => {
-        console.log(id);
-      }}
-    >
-      <View style={styles.row}>
-        <Text style={styles.deckTitle}>{title}</Text>
-        <Text style={styles.deckStats}>{questions.length} question(s)</Text>
-      </View>
-    </TouchableOpacity>
-  );
-};
-
 class Dashboard extends React.Component {
+  listItem = ({ title, questions, id }) => {
+    return (
+      <TouchableOpacity
+        style={styles.item}
+        onPress={() => {
+          this.props.navigation.navigate('Deck', { id });
+        }}
+      >
+        <View style={styles.row}>
+          <Text style={styles.deckTitle}>{title}</Text>
+          <Text style={styles.deckStats}>{questions.length} question(s)</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  renderEmptyList = () => (
+    <View>
+      <Text>{getNoQuizValue()}</Text>
+    </View>
+  );
   render() {
     return (
-      <View>
-        <FlatList
-          contentContainerStyle={styles.containder}
-          data={dummyData}
-          renderItem={({ item }) => <ListItem {...item} key={item.id} />}
-          ListEmptyComponent={() => <Text>{getNoQuizValue()}</Text>}
-        />
-      </View>
+      <FlatList
+        contentContainerStyle={styles.containder}
+        data={dummyData}
+        renderItem={({ item }) => this.listItem(item)}
+        ListEmptyComponent={this.renderEmptyList}
+      />
     );
   }
 }
@@ -55,7 +63,7 @@ const styles = StyleSheet.create({
   containder: {
     flex: 1,
     justifyContent: 'flex-start',
-    alignItems: 'stretch',
+    alignItems: 'center',
   },
   item: {
     borderColor: 'black',
