@@ -12,6 +12,7 @@ import { white, purple } from './utils/colors';
 import { Provider } from 'react-redux';
 import reducer from './reducers';
 import { createStore } from 'redux';
+import middleware from './middleware';
 
 export default class App extends React.Component {
   render() {
@@ -117,7 +118,7 @@ export default class App extends React.Component {
     );
 
     return (
-      <Provider store={createStore(reducer)}>
+      <Provider store={createStore(reducer, middleware)}>
         <View style={{ flex: 1 }}>
           <StatusBar />
           <NavigationContainer>

@@ -3,45 +3,53 @@ import { View, Text, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import TextButton from './TextButton';
 import { white } from '../utils/colors';
+import { addDeck } from '../actions';
+import { createNewDeck } from '../utils/api';
+import { connect } from 'react-redux';
 
 class NewDeck extends React.Component {
   state = {
-    quizTitle: '',
+    title: '',
   };
 
   handleTextChange = (text) => {
     this.setState(() => ({
-      quizTitle: text,
+      title: text,
     }));
   };
 
-  onSubmit = () => {
+  handleSubmit = () => {
+    const { dispatch, navigation } = this.props;
     // go back to home screen
-    // update redux
+    navigation.navigate('Dashboard');
     // update db
+    const { title } = this.state;
+    const { id } = createNewDeck(title);
+    // update redux
+    dispatch(addDeck({ title, id }));
+    this.setState(() => ({
+      title: '',
+    }));
   };
 
   render() {
     return (
-      <View style={styles.container}>
-        <KeyboardAvoidingView style={styles.formContainer}>
-          <Text style={styles.title}>Create a new Quiz</Text>
-          <TextInput
-            placeholder={'Enter new Quiz title'}
-            style={styles.input}
-            onChangeText={(text) => this.handleTextChange(text)}
-          />
-          <TextButton
-            style={[
-              styles.button,
-              { color: 'white', backgroundColor: 'black' },
-            ]}
-            onPress={this.onSubmit}
-          >
-            Submit
-          </TextButton>
-        </KeyboardAvoidingView>
-      </View>
+      <KeyboardAvoidingView style={styles.container}>
+        <Text style={styles.title}>Create a new Quiz</Text>
+        <TextInput
+          placeholder={'Enter new Quiz title'}
+          style={styles.input}
+          onChangeText={(text) => this.handleTextChange(text)}
+          value={this.state.title}
+        />
+        <TextButton
+          style={[styles.button, { color: 'white', backgroundColor: 'black' }]}
+          onPress={this.handleSubmit}
+          disabled={this.state.title === ''}
+        >
+          Submit
+        </TextButton>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -87,4 +95,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewDeck;
+const mapStateToProps = ({}, ownProps) => ({ ...ownProps });
+
+export default connect(mapStateToProps)(NewDeck);

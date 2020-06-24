@@ -4,8 +4,7 @@ export const RECEIVE_DECKS = 'RECEIVE_DECKS';
 
 export const addDeck = ({ title, id }) => ({
   type: ADD_DECK,
-  title,
-  id,
+  deck: { [id]: { title, id, questions: [] } },
 });
 
 export const deleteDeck = (id) => ({

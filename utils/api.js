@@ -28,3 +28,7 @@ export const fetchDecksData = () => ({
     ],
   },
 });
+
+export const createNewDeck = (title) => ({
+  id: Date.now(),
+});
