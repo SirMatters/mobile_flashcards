@@ -4,14 +4,16 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextButton from './TextButton';
 import { gray } from '../utils/colors';
 
-const Desk = ({ id, title, questions }) => {
+const Desk = ({ id, title, questions, navigation }) => {
   const qNum = questions ? questions.length : 0;
 
   const onDelete = () => {
     console.log('Deleting quiz id:', id);
   };
 
-  const onGameStart = () => {};
+  const onGameStart = () => {
+    navigation.navigate('Quiz', { id });
+  };
   const onAddNew = () => {};
 
   return (

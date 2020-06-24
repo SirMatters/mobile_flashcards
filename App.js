@@ -9,26 +9,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { white, purple } from './utils/colors';
-
-const dummyData = [
-  {
-    id: 1,
-    title:
-      'Quiz 1adfasd fasdhflkjashdlkf haskdf ;asdjfa;skdfj a;sdhflkjashdf;kjash',
-    questions: [
-      { title: 'q11', answer: 'a11' },
-      { title: 'q21', answer: 'a21' },
-      { title: 'q31', answer: 'a31' },
-      { title: 'q41', answer: 'a41' },
-    ],
-    // questions: [],
-  },
-  {
-    id: 2,
-    title: 'Quiz 2',
-    questions: [{ title: 'q21', answer: 'a21' }],
-  },
-];
+import { Provider } from 'react-redux';
+import reducer from './reducers';
+import { createStore } from 'redux';
 
 export default class App extends React.Component {
   render() {
@@ -134,12 +117,14 @@ export default class App extends React.Component {
     );
 
     return (
-      <View style={{ flex: 1 }}>
-        <StatusBar />
-        <NavigationContainer>
-          <MainNav />
-        </NavigationContainer>
-      </View>
+      <Provider store={createStore(reducer)}>
+        <View style={{ flex: 1 }}>
+          <StatusBar />
+          <NavigationContainer>
+            <MainNav />
+          </NavigationContainer>
+        </View>
+      </Provider>
     );
   }
 }

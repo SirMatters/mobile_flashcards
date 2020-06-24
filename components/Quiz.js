@@ -5,6 +5,26 @@ import TextButton from './TextButton';
 import { gray } from '../utils/colors';
 import QuizResult from './QuizResult';
 
+const dummyData = [
+  {
+    id: '1',
+    title: 'African mamals',
+    questions: [
+      { title: 'q11', answer: 'a11' },
+      { title: 'q12', answer: 'a12' },
+    ],
+  },
+  {
+    id: '2',
+    title: 'Egyptian mythology',
+    questions: [{ title: 'q21', answer: 'a21' }],
+  },
+  {
+    id: '3',
+    title: 'Pain & gain',
+    questions: [{ title: 'q21', answer: 'a21' }],
+  },
+];
 class Quiz extends React.Component {
   state = {
     renderedCard: 0,
@@ -26,7 +46,11 @@ class Quiz extends React.Component {
   };
 
   render() {
-    const { deck } = this.props;
+    // TODO: get data from redux
+    // const { deck } = this.props;
+    const { id } = this.props.route.params.id;
+    console.log(id);
+    const deck = dummyData[id];
     const question = deck.questions[this.state.renderedCard];
 
     if (deck.questions.length === 0) {

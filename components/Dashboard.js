@@ -3,29 +3,17 @@ import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { getNoQuizValue } from '../utils/helpers';
 import { gray } from '../utils/colors';
-
-const dummyData = [
-  {
-    id: '1',
-    title: 'African mamals',
-    questions: [
-      { title: 'q11', answer: 'a11' },
-      { title: 'q12', answer: 'a12' },
-    ],
-  },
-  {
-    id: '2',
-    title: 'Egyptian mythology',
-    questions: [{ title: 'q21', answer: 'a21' }],
-  },
-  {
-    id: '3',
-    title: 'Pain & gain',
-    questions: [{ title: 'q21', answer: 'a21' }],
-  },
-];
+import { fetchDecksData } from '../utils/api';
+import { connect } from 'react-redux';
+import { receiveDecks } from '../actions';
 
 class Dashboard extends React.Component {
+  componentDidMount() {
+    const decks = fetchDecksData();
+    const { dispatch } = this.props;
+    dispatch(receiveDecks(decks));
+  }
+
   listItem = ({ title, questions, id }) => {
     return (
       <TouchableOpacity
@@ -47,11 +35,13 @@ class Dashboard extends React.Component {
       <Text>{getNoQuizValue()}</Text>
     </View>
   );
+
   render() {
+    const { decks } = this.props;
     return (
       <FlatList
         contentContainerStyle={styles.containder}
-        data={dummyData}
+        data={Object.values(decks)}
         renderItem={({ item }) => this.listItem(item)}
         ListEmptyComponent={this.renderEmptyList}
       />
@@ -90,4 +80,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Dashboard;
+const mapStateToProps = (decks) => ({ decks });
+
+export default connect(mapStateToProps)(Dashboard);
