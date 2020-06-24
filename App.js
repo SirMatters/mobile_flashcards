@@ -4,6 +4,7 @@ import Dashboard from './components/Dashboard';
 import Deck from './components/Deck';
 import NewQuestion from './components/NewQuestion';
 import Quiz from './components/Quiz';
+import NewDeck from './components/NewDeck';
 
 const dummyData = [
   {
@@ -32,7 +33,8 @@ export default function App() {
       {/* <Dashboard /> */}
       {/* <Deck {...dummyData[0]} /> */}
       {/* <NewQuestion /> */}
-      <Quiz deck={dummyData[0]} />
+      {/* <Quiz deck={dummyData[0]} /> */}
+      <NewDeck />
     </View>
   );
 }
