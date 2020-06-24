@@ -32,3 +32,7 @@ export const fetchDecksData = () => ({
 export const createNewDeck = (title) => ({
   id: Date.now(),
 });
+
+export const deleteDeck = (id) => {
+  console.log('DB: deleted deck from db:', id);
+};

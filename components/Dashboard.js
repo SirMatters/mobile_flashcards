@@ -15,8 +15,10 @@ class Dashboard extends React.Component {
   }
 
   listItem = ({ title, questions, id }) => {
+    let qNum = questions ? questions.length : 0;
     return (
       <TouchableOpacity
+        key={id}
         style={styles.item}
         onPress={() => {
           this.props.navigation.navigate('Deck', { id });
@@ -24,7 +26,7 @@ class Dashboard extends React.Component {
       >
         <View style={styles.row}>
           <Text style={styles.deckTitle}>{title}</Text>
-          <Text style={styles.deckStats}>{questions.length} question(s)</Text>
+          <Text style={styles.deckStats}>{qNum} question(s)</Text>
         </View>
       </TouchableOpacity>
     );

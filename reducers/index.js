@@ -5,10 +5,10 @@ const decks = (state = {}, action) => {
     case ADD_DECK:
       return { ...state, ...action.deck };
     case DELETE_DECK:
-      const decks = { ...state };
+      let decks = { ...state };
       decks[action.id] = {};
-      delete decks[id];
-      return { decks };
+      delete decks[action.id];
+      return decks;
     case RECEIVE_DECKS:
       return { ...state, ...action.decks };
     default:

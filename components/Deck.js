@@ -3,47 +3,71 @@ import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextButton from './TextButton';
 import { gray } from '../utils/colors';
+import { connect } from 'react-redux';
+import { deleteDeck } from '../actions';
+import * as API from '../utils/api';
 
-const Desk = ({ id, title, questions, navigation }) => {
-  const qNum = questions ? questions.length : 0;
+class Deck extends React.Component {
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    // Do not re-render unless
+    return nextProps.deck !== undefined;
+  }
+  render() {
+    const {
+      deck: { id, title, questions },
+      navigation,
+      dispatch,
+    } = this.props;
 
-  const onDelete = () => {
-    console.log('Deleting quiz id:', id);
-  };
+    const onDelete = () => {
+      console.log(id);
+      // update DB
+      API.deleteDeck(id);
+      // update redux
+      dispatch(deleteDeck(id));
+      // redirect to Dashboard
+      navigation.goBack();
+    };
 
-  const onGameStart = () => {
-    navigation.navigate('Quiz', { id });
-  };
-  const onAddNew = () => {};
+    const onGameStart = () => {
+      navigation.navigate('Quiz', { id });
+    };
+    const onAddNew = () => {
+      navigation.navigate('NewQuestion', { id });
+    };
 
-  return (
-    <View style={styles.container}>
-      <View style={{ paddingTop: 150 }}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.stats}>{qNum} card(s)</Text>
-      </View>
-      <View style={{ paddingBottom: 150 }}>
-        <TextButton
-          style={[styles.button, { color: 'black' }]}
-          onPress={onAddNew}
-        >
-          Add new
-        </TextButton>
-        <TextButton
-          style={[styles.button, { color: 'white', backgroundColor: 'black' }]}
-          onPress={onGameStart}
-        >
-          Start Quiz
-        </TextButton>
-        <TouchableOpacity onPress={onDelete}>
-          <TextButton style={{ paddingTop: 15, color: 'red' }}>
-            Delete Quiz
+    return (
+      <View style={styles.container}>
+        <View style={{ paddingTop: 150 }}>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.stats}>{questions.length} card(s)</Text>
+        </View>
+        <View style={{ paddingBottom: 150 }}>
+          <TextButton
+            style={[styles.button, { color: 'black' }]}
+            onPress={onAddNew}
+          >
+            Add new
           </TextButton>
-        </TouchableOpacity>
+          <TextButton
+            style={[
+              styles.button,
+              { color: 'white', backgroundColor: 'black' },
+            ]}
+            onPress={onGameStart}
+          >
+            Start Quiz
+          </TextButton>
+          <TouchableOpacity onPress={onDelete}>
+            <TextButton style={{ paddingTop: 15, color: 'red' }}>
+              Delete Quiz
+            </TextButton>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
-  );
-};
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -71,4 +95,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Desk;
+const mapStateToProps = (decks, ownProps) => {
+  deck = decks[ownProps.route.params.id];
+  return {
+    deck,
+  };
+};
+export default connect(mapStateToProps)(Deck);
