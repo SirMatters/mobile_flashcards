@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import TextButton from './TextButton';
-import { gray } from '../utils/colors';
 
-const QuizResult = ({ deck, score }) => {
+const QuizResult = (props) => {
+  const { deck, score, navigation } = props;
   return (
     <View style={styles.container}>
       <View>
@@ -23,6 +23,7 @@ const QuizResult = ({ deck, score }) => {
       ) : null}
       <TextButton
         style={[styles.button, { backgroundColor: 'black', color: 'white' }]}
+        onPress={() => navigation.goBack()}
       >
         Return to Deck
       </TextButton>

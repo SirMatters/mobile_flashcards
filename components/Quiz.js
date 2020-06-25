@@ -28,7 +28,7 @@ class Quiz extends React.Component {
   };
 
   render() {
-    const { deck } = this.props;
+    const { deck, navigation } = this.props;
     const question = deck.questions[this.state.renderedCard];
 
     if (deck.questions.length === 0) {
@@ -36,7 +36,13 @@ class Quiz extends React.Component {
     }
 
     if (this.state.renderedCard === deck.questions.length) {
-      return <QuizResult deck={deck} score={this.state.gameScore} />;
+      return (
+        <QuizResult
+          navigation={navigation}
+          deck={deck}
+          score={this.state.gameScore}
+        />
+      );
     }
 
     return (
@@ -141,6 +147,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (decks, ownProps) => ({
   deck: decks[ownProps.route.params.id],
+  navigation: ownProps.navigation,
 });
 
 export default connect(mapStateToProps)(Quiz);
