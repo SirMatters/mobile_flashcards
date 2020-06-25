@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import TextButton from './TextButton';
 
 const QuizResult = (props) => {
-  const { deck, score, navigation } = props;
+  const { deck, score, navigation, onRestart } = props;
   return (
     <View style={styles.container}>
       <View>
@@ -21,12 +21,20 @@ const QuizResult = (props) => {
       {score / deck.questions.length >= 0.75 ? (
         <Text style={styles.cheer}>Good job!</Text>
       ) : null}
-      <TextButton
-        style={[styles.button, { backgroundColor: 'black', color: 'white' }]}
-        onPress={() => navigation.goBack()}
-      >
-        Return to Deck
-      </TextButton>
+      <View>
+        <TextButton
+          style={[styles.button, { backgroundColor: 'white', color: 'black' }]}
+          onPress={() => onRestart()}
+        >
+          Restart Quiz
+        </TextButton>
+        <TextButton
+          style={[styles.button, { backgroundColor: 'black', color: 'white' }]}
+          onPress={() => navigation.goBack()}
+        >
+          Return to Deck
+        </TextButton>
+      </View>
     </View>
   );
 };
@@ -57,6 +65,7 @@ const styles = StyleSheet.create({
     padding: 5,
     width: 200,
     fontSize: 17,
+    margin: 5,
   },
   row: {
     flex: 1,

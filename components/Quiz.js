@@ -19,6 +19,14 @@ class Quiz extends React.Component {
     }));
   };
 
+  handleRestart = () => {
+    this.setState(() => ({
+      renderedCard: 0,
+      showAnswer: false,
+      gameScore: 0,
+    }));
+  };
+
   handleAnswer = (answer) => {
     this.setState((currState) => ({
       renderedCard: currState.renderedCard + 1,
@@ -38,6 +46,7 @@ class Quiz extends React.Component {
     if (this.state.renderedCard === deck.questions.length) {
       return (
         <QuizResult
+          onRestart={this.handleRestart}
           navigation={navigation}
           deck={deck}
           score={this.state.gameScore}
