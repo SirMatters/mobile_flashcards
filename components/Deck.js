@@ -33,7 +33,7 @@ class Deck extends React.Component {
       navigation.navigate('Quiz', { id });
     };
     const onAddNew = () => {
-      navigation.navigate('NewQuestion', { id });
+      navigation.navigate('NewQuestion', { deckId: id });
     };
 
     return (

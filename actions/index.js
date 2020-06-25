@@ -16,3 +16,13 @@ export const receiveDecks = (decks) => ({
   type: RECEIVE_DECKS,
   decks,
 });
+
+export const ADD_QUESTION = 'ADD_QUESTION';
+
+export const addQuestion = ({ deckId, title, answer, qid }) => ({
+  type: ADD_QUESTION,
+  deckId,
+  title,
+  answer,
+  qid,
+});

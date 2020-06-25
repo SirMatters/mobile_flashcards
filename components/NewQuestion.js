@@ -1,13 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import TextButton from './TextButton';
-import { generateId } from '../utils/helpers';
+import * as API from '../utils/api';
 import { TextInput } from 'react-native-gesture-handler';
 import { white } from '../utils/colors';
+import { connect } from 'react-redux';
+import { addQuestion } from '../actions';
 
 class NewQuestion extends React.Component {
   state = {
-    question: '',
+    title: '',
     answer: '',
     createPending: false,
   };
@@ -18,19 +20,18 @@ class NewQuestion extends React.Component {
     }));
   };
 
-  onChangeQuestion = (text) =>
-    this.handleTextChange({ param: 'question', text });
+  onChangeQuestion = (text) => this.handleTextChange({ param: 'title', text });
   onChangeAnswer = (text) => this.handleTextChange({ param: 'answer', text });
 
   onSubmit = () => {
-    const { question, answer } = this.state;
-    const { quizId } = this.props;
-    // TODO: should be done within an action by an api
-    const id = generateId();
+    const { title, answer } = this.state;
+    const { deckId, dispatch, navigation } = this.props;
     // update DB
+    const qid = API.addQuestion({ deckId, title, answer });
     // update redux
+    dispatch(addQuestion({ deckId, title, answer, qid }));
     // route to Deck view
-    console.log(`Adding question ${question} with id ${id} to quiz ${quizId}`);
+    navigation.navigate('Dashboard');
   };
 
   render() {
@@ -99,4 +100,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewQuestion;
+const mapStateToProps = ({}, ownProps) => {
+  return {
+    deckId: ownProps.route.params.deckId,
+  };
+};
+
+export default connect(mapStateToProps)(NewQuestion);
