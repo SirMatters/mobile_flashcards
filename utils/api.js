@@ -36,7 +36,7 @@ export const fetchDecksData = () => ({
 });
 
 export const createNewDeck = (title) => ({
-  id: Date.now(),
+  id: Date.now().toString(),
 });
 
 export const deleteDeck = (id) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { Keyboard, Text, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import TextButton from './TextButton';
 import { white } from '../utils/colors';
@@ -19,6 +19,7 @@ class NewDeck extends React.Component {
   };
 
   handleSubmit = () => {
+    Keyboard.dismiss();
     const { dispatch, navigation } = this.props;
     // go back to home screen
     navigation.navigate('Dashboard');
