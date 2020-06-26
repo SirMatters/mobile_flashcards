@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, View, StatusBar } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import Dashboard from './components/Dashboard';
 import Deck from './components/Deck';
 import NewQuestion from './components/NewQuestion';
@@ -13,8 +13,14 @@ import { Provider } from 'react-redux';
 import reducer from './reducers';
 import { createStore } from 'redux';
 import middleware from './middleware';
+import { setNotification } from './utils/helpers';
+import * as Notifications from 'expo-notifications';
 
 export default class App extends React.Component {
+  componentDidMount() {
+    setNotification();
+  }
+
   render() {
     const Tab = createMaterialTopTabNavigator();
     const routeConfigs = {

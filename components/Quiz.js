@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { getNoQuizValue } from '../utils/helpers';
+import { getNoQuizValue, getTodayDateString } from '../utils/helpers';
 import TextButton from './TextButton';
 import { gray } from '../utils/colors';
 import QuizResult from './QuizResult';
 import { connect } from 'react-redux';
+import AsyncStorage from '@react-native-community/async-storage';
+import { NOTIFICATION_KEY } from '../utils/helpers';
 
 class Quiz extends React.Component {
   state = {
@@ -44,6 +46,9 @@ class Quiz extends React.Component {
     }
 
     if (this.state.renderedCard === deck.questions.length) {
+      // set today's date for last passed within async sotrage
+      AsyncStorage.setItem(NOTIFICATION_KEY, new Date().toLocaleDateString());
+
       return (
         <QuizResult
           onRestart={this.handleRestart}

@@ -5,13 +5,10 @@
     "name": "mobile_flashcards",
     "slug": "expo-template-bare",
     "version": "1.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "platforms": ["ios", "android", "web"],
+    "assetBundlePatterns": ["**/*"],
+    "android": {
+      "useNextNotificationsApi": true
+    }
   }
 }
