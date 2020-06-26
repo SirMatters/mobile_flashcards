@@ -6,12 +6,19 @@ import { gray } from '../utils/colors';
 import { fetchDecksData } from '../utils/api';
 import { connect } from 'react-redux';
 import { receiveDecks } from '../actions';
+import { AppLoading } from 'expo';
 
 class Dashboard extends React.Component {
+  state = {
+    ready: false,
+  };
+
   componentDidMount() {
-    const decks = fetchDecksData();
     const { dispatch } = this.props;
-    dispatch(receiveDecks(decks));
+    fetchDecksData().then((decks) => {
+      dispatch(receiveDecks(decks));
+      this.setState({ ready: true });
+    });
   }
 
   listItem = ({ title, questions, id }) => {
@@ -21,6 +28,7 @@ class Dashboard extends React.Component {
         key={id}
         style={styles.item}
         onPress={() => {
+          console.log('Navigating to deck, id:', id);
           this.props.navigation.navigate('Deck', { id });
         }}
       >
@@ -39,10 +47,17 @@ class Dashboard extends React.Component {
   );
 
   render() {
+    if (this.state.ready === false) {
+      return <AppLoading />;
+    }
+
     const { decks } = this.props;
     return (
       <FlatList
-        contentContainerStyle={styles.containder}
+        contentContainerStyle={[
+          styles.containder,
+          { backgroundColor: 'white' },
+        ]}
         data={Object.values(decks)}
         renderItem={({ item }) => this.listItem(item)}
         ListEmptyComponent={this.renderEmptyList}
@@ -82,6 +97,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (decks) => ({ decks });
+const mapStateToProps = (decks) => {
+  console.log(
+    'Store state in Dashboard is empty:',
+    Object.keys(decks).length === 0
+  );
+  return { decks };
+};
 
 export default connect(mapStateToProps)(Dashboard);

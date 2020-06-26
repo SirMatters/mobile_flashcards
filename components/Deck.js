@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextButton from './TextButton';
 import { gray } from '../utils/colors';
@@ -12,15 +12,24 @@ class Deck extends React.Component {
     // Do not re-render unless
     return nextProps.deck !== undefined;
   }
+
   render() {
+    console.log('Rendering Deck component');
     const {
       deck: { id, title, questions },
       navigation,
       dispatch,
     } = this.props;
 
-    const onDelete = () => {
-      console.log(id);
+    const createEmptyDeckAlert = () =>
+      Alert.alert(
+        'Deck is empty',
+        'Add new question cards to the deck to start quiz',
+        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+        { cancelable: false }
+      );
+
+    const onDelete = async () => {
       // update DB
       API.deleteDeck(id);
       // update redux
@@ -53,8 +62,11 @@ class Deck extends React.Component {
             style={[
               styles.button,
               { color: 'white', backgroundColor: 'black' },
+              questions.length === 0 ? styles.disabled : null,
             ]}
-            onPress={onGameStart}
+            onPress={
+              questions.length === 0 ? createEmptyDeckAlert : onGameStart
+            }
           >
             Start Quiz
           </TextButton>
@@ -93,10 +105,15 @@ const styles = StyleSheet.create({
     width: 200,
     fontSize: 17,
   },
+  disabled: {
+    backgroundColor: gray,
+    borderColor: gray,
+  },
 });
 
 const mapStateToProps = (decks, ownProps) => {
-  deck = decks[ownProps.route.params.id];
+  let deck = decks[ownProps.route.params.id];
+  console.log('Passing info to connected Deck:', JSON.stringify(deck));
   return {
     deck,
   };

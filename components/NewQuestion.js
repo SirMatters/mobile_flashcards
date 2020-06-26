@@ -23,11 +23,11 @@ class NewQuestion extends React.Component {
   onChangeQuestion = (text) => this.handleTextChange({ param: 'title', text });
   onChangeAnswer = (text) => this.handleTextChange({ param: 'answer', text });
 
-  onSubmit = () => {
+  onSubmit = async () => {
     const { title, answer } = this.state;
     const { deckId, dispatch, navigation } = this.props;
     // update DB
-    const qid = API.addQuestion({ deckId, title, answer });
+    const qid = await API.addQuestion({ deckId, title, answer });
     // update redux
     dispatch(addQuestion({ deckId, title, answer, qid }));
     // route to Deck view
@@ -72,9 +72,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'white',
     paddingTop: 150,
     paddingBottom: 150,
+    minHeight: 200,
   },
   title: {
     fontSize: 30,

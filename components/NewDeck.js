@@ -4,7 +4,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import TextButton from './TextButton';
 import { white } from '../utils/colors';
 import { addDeck } from '../actions';
-import { createNewDeck } from '../utils/api';
+import * as API from '../utils/api';
 import { connect } from 'react-redux';
 
 class NewDeck extends React.Component {
@@ -18,14 +18,15 @@ class NewDeck extends React.Component {
     }));
   };
 
-  handleSubmit = () => {
+  handleSubmit = async () => {
     Keyboard.dismiss();
     const { dispatch, navigation } = this.props;
     // go back to home screen
     navigation.navigate('Dashboard');
     // update db
     const { title } = this.state;
-    const { id } = createNewDeck(title);
+    // id is returned by an api
+    const { id } = await API.createNewDeck(title);
     // update redux
     dispatch(addDeck({ title, id }));
     this.setState(() => ({
@@ -60,10 +61,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: white,
     paddingTop: 150,
     paddingBottom: 150,
     flexGrow: 1,
+    flexShrink: 0,
   },
   formContainer: {
     flex: 1,
@@ -80,8 +82,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     margin: 5,
-    marginTop: 50,
+    marginTop: 10,
     width: 300,
+    minHeight: 35,
   },
   button: {
     textTransform: 'uppercase',
@@ -90,7 +93,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     margin: 5,
-    marginTop: 50,
+    marginTop: 10,
     width: 200,
     fontSize: 17,
   },

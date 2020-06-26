@@ -14,8 +14,6 @@ import reducer from './reducers';
 import { createStore } from 'redux';
 import middleware from './middleware';
 import { setNotification } from './utils/helpers';
-import * as Notifications from 'expo-notifications';
-
 export default class App extends React.Component {
   componentDidMount() {
     setNotification();
@@ -28,14 +26,14 @@ export default class App extends React.Component {
         name: 'Dashboard',
         component: Dashboard,
         options: {
-          title: 'All Quiz',
+          title: 'All Decks',
         },
       },
       NewDeck: {
         name: 'New Quiz',
         component: NewDeck,
         options: {
-          title: 'New Quiz',
+          title: 'New Deck',
         },
       },
     };
@@ -46,6 +44,9 @@ export default class App extends React.Component {
       },
       tabBarOptions: {
         activeTintColor: 'black',
+        labelStyle: {
+          fontSize: 17,
+        },
         style: {
           height: 56,
           backgroundColor: 'white',
@@ -81,9 +82,9 @@ export default class App extends React.Component {
         name: 'Deck',
         component: Deck,
         options: {
-          headerTintColor: white,
+          headerTintColor: 'black',
           headerStyle: {
-            backgroundColor: purple,
+            backgroundColor: 'white',
           },
           title: 'Deck',
         },
@@ -92,9 +93,9 @@ export default class App extends React.Component {
         name: 'Quiz',
         component: Quiz,
         options: {
-          headerTintColor: white,
+          headerTintColor: 'black',
           headerStyle: {
-            backgroundColor: purple,
+            backgroundColor: 'white',
           },
           title: 'Quiz',
         },
@@ -103,9 +104,9 @@ export default class App extends React.Component {
         name: 'NewQuestion',
         component: NewQuestion,
         options: {
-          headerTintColor: white,
+          headerTintColor: 'black',
           headerStyle: {
-            backgroundColor: purple,
+            backgroundColor: 'white',
           },
           title: 'NewQuestion',
         },
@@ -123,9 +124,11 @@ export default class App extends React.Component {
       </Stack.Navigator>
     );
 
+    console.log('Rendering App component');
+    const store = createStore(reducer, middleware);
     return (
-      <Provider store={createStore(reducer, middleware)}>
-        <View style={{ flex: 1 }}>
+      <Provider store={store}>
+        <View style={{ flex: 1, flexShrink: 0 }}>
           <StatusBar />
           <NavigationContainer>
             <MainNav />
