@@ -7,8 +7,8 @@ export const fetchDecksData = () => ({
     questions: [
       {
         id: 'q11',
-        title: 'q11',
-        answer: 'a11',
+        title: 'Who is the king of savanna?',
+        answer: 'Lion',
       },
       {
         id: 'q21',

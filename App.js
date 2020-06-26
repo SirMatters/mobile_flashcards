@@ -28,14 +28,14 @@ export default class App extends React.Component {
         name: 'Dashboard',
         component: Dashboard,
         options: {
-          title: 'All Quiz',
+          title: 'All Decks',
         },
       },
       NewDeck: {
         name: 'New Quiz',
         component: NewDeck,
         options: {
-          title: 'New Quiz',
+          title: 'New Deck',
         },
       },
     };
@@ -46,6 +46,9 @@ export default class App extends React.Component {
       },
       tabBarOptions: {
         activeTintColor: 'black',
+        labelStyle: {
+          fontSize: 17,
+        },
         style: {
           height: 56,
           backgroundColor: 'white',
@@ -81,9 +84,9 @@ export default class App extends React.Component {
         name: 'Deck',
         component: Deck,
         options: {
-          headerTintColor: white,
+          headerTintColor: 'black',
           headerStyle: {
-            backgroundColor: purple,
+            backgroundColor: 'white',
           },
           title: 'Deck',
         },
@@ -92,9 +95,9 @@ export default class App extends React.Component {
         name: 'Quiz',
         component: Quiz,
         options: {
-          headerTintColor: white,
+          headerTintColor: 'black',
           headerStyle: {
-            backgroundColor: purple,
+            backgroundColor: 'white',
           },
           title: 'Quiz',
         },
@@ -103,9 +106,9 @@ export default class App extends React.Component {
         name: 'NewQuestion',
         component: NewQuestion,
         options: {
-          headerTintColor: white,
+          headerTintColor: 'black',
           headerStyle: {
-            backgroundColor: purple,
+            backgroundColor: 'white',
           },
           title: 'NewQuestion',
         },
@@ -125,7 +128,7 @@ export default class App extends React.Component {
 
     return (
       <Provider store={createStore(reducer, middleware)}>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, flexShrink: 0 }}>
           <StatusBar />
           <NavigationContainer>
             <MainNav />

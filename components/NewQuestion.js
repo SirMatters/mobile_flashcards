@@ -72,9 +72,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'white',
     paddingTop: 150,
     paddingBottom: 150,
+    minHeight: 200,
   },
   title: {
     fontSize: 30,

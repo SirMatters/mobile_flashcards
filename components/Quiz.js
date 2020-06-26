@@ -1,12 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { getNoQuizValue, getTodayDateString } from '../utils/helpers';
+import { getNoQuizValue } from '../utils/helpers';
 import TextButton from './TextButton';
 import { gray } from '../utils/colors';
 import QuizResult from './QuizResult';
 import { connect } from 'react-redux';
 import AsyncStorage from '@react-native-community/async-storage';
 import { NOTIFICATION_KEY } from '../utils/helpers';
+import { white } from '../utils/colors';
+import { FontAwesome } from '@expo/vector-icons';
 
 class Quiz extends React.Component {
   state = {
@@ -60,13 +62,21 @@ class Quiz extends React.Component {
     }
 
     return (
-      <View>
+      <View style={{ backgroundColor: white }}>
         <Text style={styles.cardNumber}>
           {this.state.renderedCard + 1}/{deck.questions.length}
         </Text>
-        <View style={styles.container}>
-          <Text style={styles.title}>{question.title}</Text>
-          {this.state.showAnswer && <Text>{question.answer}</Text>}
+        <View style={[styles.container]}>
+          <View>
+            <Text style={[styles.title, { textAlign: 'center' }]}>
+              {question.title}
+            </Text>
+            {this.state.showAnswer && (
+              <Text style={{ color: gray, textAlign: 'center' }}>
+                {question.answer}
+              </Text>
+            )}
+          </View>
           <View>
             {this.state.showAnswer && (
               <View style={styles.row}>
@@ -74,35 +84,53 @@ class Quiz extends React.Component {
                   onPress={() => {
                     this.handleAnswer(true);
                   }}
-                  style={[styles.answerButton]}
+                  style={[styles.answerButton, { borderColor: 'green' }]}
                 >
-                  Yes
+                  <FontAwesome
+                    name='check'
+                    size={30}
+                    style={{ color: 'green' }}
+                  />
                 </TextButton>
                 <TextButton
                   onPress={() => {
                     this.handleAnswer(false);
                   }}
-                  style={[styles.answerButton]}
+                  style={[styles.answerButton, { borderColor: 'red' }]}
                 >
-                  No
+                  <FontAwesome
+                    name='close'
+                    size={30}
+                    style={{ color: 'red' }}
+                  />
                 </TextButton>
               </View>
             )}
-            <TextButton
-              style={[
-                styles.button,
-                { color: 'white', backgroundColor: 'black' },
-              ]}
-              // disabled={this.state.showAnswer}
-              onPress={this.handleShow}
-            >
-              Show answer
-            </TextButton>
+            {!this.state.showAnswer && (
+              <TextButton
+                style={[
+                  styles.button,
+                  { color: 'white', backgroundColor: 'black' },
+                ]}
+                onPress={this.handleShow}
+              >
+                Show answer
+              </TextButton>
+            )}
           </View>
           <View>
-            <Text>{this.state.gameScore}</Text>
-            <Text>/</Text>
-            <Text>{this.state.renderedCard - this.state.gameScore}</Text>
+            <Text style={{ textAlign: 'center', fontSize: 20 }}>
+              Your score
+            </Text>
+            <View style={styles.row}>
+              <Text style={{ color: 'green', fontSize: 20 }}>
+                {this.state.gameScore}
+              </Text>
+              <Text style={{ fontSize: 20 }}>/</Text>
+              <Text style={{ color: 'red', fontSize: 20 }}>
+                {this.state.renderedCard - this.state.gameScore}
+              </Text>
+            </View>
           </View>
         </View>
       </View>
@@ -114,7 +142,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: white,
     paddingTop: 150,
     paddingBottom: 150,
     flexGrow: 1,
@@ -132,29 +160,31 @@ const styles = StyleSheet.create({
     width: 200,
     fontSize: 17,
   },
-  row: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: 200,
-    maxHeight: 50,
-  },
   answerButton: {
     borderWidth: 2,
     borderRadius: 5,
     padding: 5,
     width: 70,
-    marginBottom: 5,
+    margin: 5,
+    minHeight: 50,
 
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  row: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: 200,
+    maxHeight: 50,
   },
   cardNumber: {
     width: 300,
     color: gray,
     textAlign: 'right',
     marginTop: 10,
+    backgroundColor: white,
   },
   userScore: {},
 });

@@ -42,7 +42,10 @@ class Dashboard extends React.Component {
     const { decks } = this.props;
     return (
       <FlatList
-        contentContainerStyle={styles.containder}
+        contentContainerStyle={[
+          styles.containder,
+          { backgroundColor: 'white' },
+        ]}
         data={Object.values(decks)}
         renderItem={({ item }) => this.listItem(item)}
         ListEmptyComponent={this.renderEmptyList}
