@@ -10,7 +10,8 @@ import * as API from '../utils/api';
 class Deck extends React.Component {
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     // Do not re-render unless
-    return nextProps.deck !== undefined;
+    const { deck } = nextProps;
+    return deck !== undefined;
   }
 
   render() {

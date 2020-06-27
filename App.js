@@ -125,9 +125,8 @@ export default class App extends React.Component {
     );
 
     console.log('Rendering App component');
-    const store = createStore(reducer, middleware);
     return (
-      <Provider store={store}>
+      <Provider store={createStore(reducer, middleware)}>
         <View style={{ flex: 1, flexShrink: 0 }}>
           <StatusBar />
           <NavigationContainer>
