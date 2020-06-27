@@ -62,7 +62,7 @@ class Quiz extends React.Component {
     }
 
     return (
-      <View style={{ backgroundColor: white }}>
+      <View style={{ backgroundColor: white, minHeight: 600 }}>
         <Text style={styles.cardNumber}>
           {this.state.renderedCard + 1}/{deck.questions.length}
         </Text>

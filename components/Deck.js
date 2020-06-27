@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
+import { View, Text, StyleSheet, Alert, Animated } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import TextButton from './TextButton';
 import { gray } from '../utils/colors';
@@ -8,6 +8,19 @@ import { deleteDeck } from '../actions';
 import * as API from '../utils/api';
 
 class Deck extends React.Component {
+  state = {
+    opacity: new Animated.Value(0),
+  };
+
+  componentDidMount() {
+    const { opacity } = this.state;
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: 1500,
+      useNativeDriver: true,
+    }).start();
+  }
+
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     // Do not re-render unless
     const { deck } = nextProps;
@@ -16,6 +29,9 @@ class Deck extends React.Component {
 
   render() {
     console.log('Rendering Deck component');
+
+    const { opacity } = this.state;
+
     const {
       deck: { id, title, questions },
       navigation,
@@ -47,7 +63,7 @@ class Deck extends React.Component {
     };
 
     return (
-      <View style={styles.container}>
+      <Animated.View style={[styles.container, { opacity }]}>
         <View style={{ paddingTop: 150 }}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.stats}>{questions.length} card(s)</Text>
@@ -77,7 +93,7 @@ class Deck extends React.Component {
             </TextButton>
           </TouchableOpacity>
         </View>
-      </View>
+      </Animated.View>
     );
   }
 }
