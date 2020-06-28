@@ -47,7 +47,7 @@ export const setDummyData = async (data) => {
 };
 
 export const fetchDecksData = async () => {
-  const data = JSON.parse(await AsyncStorage.getItem(DATA_STORAGE_KEY));
+  const data = JSON.parse(await AsyncStorage.getItem(DATA_STORAGE_KEY)) || {};
   console.log('Fetched data from DB is empty:', Object.keys(data).length === 0);
   if (Object.keys(data).length === 0) {
     await setDummyData(dummyData);
