@@ -31,7 +31,7 @@ class NewQuestion extends React.Component {
     // update redux
     dispatch(addQuestion({ deckId, title, answer, qid }));
     // route to Deck view
-    navigation.navigate('Dashboard');
+    navigation.goBack();
   };
 
   render() {

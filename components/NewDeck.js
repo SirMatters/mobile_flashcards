@@ -21,8 +21,6 @@ class NewDeck extends React.Component {
   handleSubmit = async () => {
     Keyboard.dismiss();
     const { dispatch, navigation } = this.props;
-    // go back to home screen
-    navigation.navigate('Dashboard');
     // update db
     const { title } = this.state;
     // id is returned by an api
@@ -32,6 +30,8 @@ class NewDeck extends React.Component {
     this.setState(() => ({
       title: '',
     }));
+    // go back to deck screen
+    navigation.navigate('Deck', { id });
   };
 
   render() {
